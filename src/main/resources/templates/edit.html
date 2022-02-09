@@ -19,8 +19,27 @@
     <br/>
     <input type="text" th:field="*{age}" id="age">
     <br/>
+    <label for="login">Enter login: </label>
     <br/>
-    <input type="submit" value="Update!">
+    <input type="text" th:field="*{login}" id="login"/>
+    <br/>
+    <label for="password">Enter password: </label>
+    <br/>
+    <input type="text" th:field="*{password}" id="password"/>
+    <br/>
+    <br/>
+    <select th:field="*{roles}" multiple="true">
+        <option th:each="r : ${userRoles}" th:value="${r.id}" th:text="${r.id+' '+r.role}">
+        </option>
+    </select>
+    <br/>
+    <br/>
+    <input type="submit" value="UPDATE">
+    <br/>
+    <br>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="LOGOUT"/>
+    </form>
 </form>
 
 </body>

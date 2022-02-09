@@ -11,15 +11,21 @@
 <table th:border="1">
     <tr>
         <th>ID</th>
-        <th>USERNAME</th>
-        <th>PASSWORD</th>
+        <th>NAME</th>
+        <th>SURNAME</th>
         <th>AGE</th>
+        <th>LOGIN</th>
+        <th>PASSWORD</th>
+        <th>ROLE</th>
     </tr>
     <tr th:each="user : ${people}">
         <td> <a th:text="${user.getId()}">id </a></td>
-        <td> <a th:href="@{/{id}(id=${user.getId()})}" th:text="${user.getName()()()}">name </a></td>
-        <td> <a th:text="${user.getSurname()()}">surname </a></td>
+        <td> <a th:href="@{user/{id}(id=${user.getId()})}" th:text="${user.getName()}">name </a></td>
+        <td> <a th:text="${user.getSurname()}">surname </a></td>
         <td> <a th:text="${user.getAge()}">age </a></td>
+        <td> <a th:text="${user.getUsername()}">login </a></td>
+        <td> <a th:text="${user.getPassword()}">password </a></td>
+        <td> <a th:text="${user.getRoles()}">role </a></td>
         <td>
             <form method="LINK" th:action="@{/{id}/edit(id=${user.getId()})}">
                 <input type="submit" value="Edit">
@@ -36,8 +42,12 @@
 </table>
 
 <br>
-
 <a href="/new">Add new</a>
+<br>
+<br>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="LOGOUT"/>
+</form>
 
 </body>
 </html>

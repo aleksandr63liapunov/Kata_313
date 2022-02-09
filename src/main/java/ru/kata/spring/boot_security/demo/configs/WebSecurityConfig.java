@@ -29,13 +29,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/index").permitAll()
-                .antMatchers("/user").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers("/users").hasAnyAuthority("ADMIN")
-                .antMatchers("/new").hasAnyAuthority("ADMIN")
-                .antMatchers("/edit").hasAnyAuthority("ADMIN")
+                .antMatchers("/user/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .and()
                 .formLogin().successHandler(successUserHandler)
                 .permitAll()
@@ -52,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     protected DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         return daoAuthenticationProvider;
     }
