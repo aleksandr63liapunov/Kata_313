@@ -39,8 +39,8 @@ public class UserController {
     }
 
     @GetMapping("/user/{login}")
-    public String showUserForUser (@PathVariable("login") String login, Model userModel) {
-        userModel.addAttribute("man", userService.loadUserByUsername(login));
+    public String showUserForUser (@PathVariable("login") String email, Model userModel) {
+        userModel.addAttribute("man", userService.loadUserByUsername(email));
         return "user";
     }
 
