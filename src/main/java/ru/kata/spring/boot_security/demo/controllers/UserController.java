@@ -12,11 +12,9 @@ import ru.kata.spring.boot_security.demo.services.UserService;
 @RequestMapping()
 public class UserController {
     private final UserService userService;
-
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
 
     @GetMapping("/")
