@@ -31,6 +31,8 @@ public class UserController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("admen", user);
         model.addAttribute("mans", userService.getAllUsers());
+
+        model.addAttribute("userRoles", userService.getRoles());
         return "admin";
     }
 
@@ -41,6 +43,17 @@ public class UserController {
         return "user";
     }
 
+    @PatchMapping("/edit/{id}")
+    public String updateUser(@ModelAttribute("user") User user) {
+        userService.updateUser(user);
+        return "redirect:/admin";
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return "redirect:/admin";
+    }
     //------------------------------------------------------------------------------------------------------------------
 
     @GetMapping("/new")
@@ -50,28 +63,14 @@ public class UserController {
     }
 
     @PostMapping("/admin/create")
-    public String createUser(@ModelAttribute("user") User user) {
+    public String createUser(@ModelAttribute("userN") User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.addUser(user);
-        return "redirect:admin";
+        return "redirect:/admin";
     }
 
-    @GetMapping("/edit/{id}")
-    public String editeUserPage(@PathVariable Long id, Model userModel) {
-        userModel.addAttribute("userUpdate", userService.getUser(id));
-        userModel.addAttribute("userRoles", userService.getRoles());
-        return "redirect:admin";
-    }
 
-    @PatchMapping("/edit/{id}")
-    public String updateUser(@ModelAttribute("user") User user) {
-        userService.updateUser(user);
-        return "redirect:admin";
-    }
 
-    @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return "redirect:admin/users";
-    }
+
+
 }

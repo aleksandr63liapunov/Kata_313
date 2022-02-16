@@ -21,15 +21,15 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private Long id;
     @Column
-    private String email;
-    @Column
-    private String password;
-    @Column
     private String name;
     @Column
     private String surname;
     @Column
     private int age;
+    @Column
+    private String email;
+    @Column
+    private String password;
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
