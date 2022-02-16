@@ -1,11 +1,15 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.services.UserService;
+
+import java.security.Security;
 
 
 @Controller
@@ -21,28 +25,23 @@ public class UserController {
     public String toLogin() {
         return "redirect:/login";
     }
-    @GetMapping("/user")
-    public String toUser() {
-        return "redirect:/login";
-    }
 
-    @GetMapping("admin/users")
+    @GetMapping("/admin")
     public String showAllUsers(Model model) {
-        model.addAttribute("people", userService.getAllUsers());
-        return "users";
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("admen", user);
+        model.addAttribute("mans", userService.getAllUsers());
+        return "admin";
     }
 
-    @GetMapping("admin/user/{id}")
-    public String showUserForAdmin(@PathVariable("id") Long id, Model userModel) {
-        userModel.addAttribute("man", userService.getUser(id));
+    @GetMapping("/user")
+    public String showUserForUser (Model userModel) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userModel.addAttribute("man", user);
         return "user";
     }
 
-    @GetMapping("/user/{login}")
-    public String showUserForUser (@PathVariable("login") String email, Model userModel) {
-        userModel.addAttribute("man", userService.loadUserByUsername(email));
-        return "user";
-    }
+    //------------------------------------------------------------------------------------------------------------------
 
     @GetMapping("/new")
     public String newUserPage(@ModelAttribute("userBoy") User user, Model model) {
@@ -50,24 +49,24 @@ public class UserController {
         return "new";
     }
 
-    @PostMapping("admin/users")
+    @PostMapping("/admin/create")
     public String createUser(@ModelAttribute("user") User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.addUser(user);
-        return "redirect:users";
+        return "redirect:admin";
     }
 
-    @GetMapping("/{id}/edit")
+    @GetMapping("/edit/{id}")
     public String editeUserPage(@PathVariable Long id, Model userModel) {
         userModel.addAttribute("userUpdate", userService.getUser(id));
         userModel.addAttribute("userRoles", userService.getRoles());
-        return "edit";
+        return "redirect:admin";
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/edit/{id}")
     public String updateUser(@ModelAttribute("user") User user) {
         userService.updateUser(user);
-        return "redirect:admin/users";
+        return "redirect:admin";
     }
 
     @DeleteMapping("/{id}")

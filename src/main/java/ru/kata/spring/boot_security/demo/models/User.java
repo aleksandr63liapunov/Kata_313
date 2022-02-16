@@ -20,10 +20,15 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
+    @Column
     private String email;
+    @Column
     private String password;
+    @Column
     private String name;
+    @Column
     private String surname;
+    @Column
     private int age;
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
