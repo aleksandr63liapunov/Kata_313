@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
@@ -23,7 +23,7 @@
         <b class="text-white ms-3"><span th:text="${admen.email}"></span></b>
         <simple class="text-white">with roles:</simple>
         <simple class="text-white">
-            <span th:text="${admen.roles}">     </span>
+            <span th:text="${admen.roles}"></span>
         </simple>
     </div>
     <a class="nav-link" href="/logout">Logout</a>
@@ -52,11 +52,11 @@
             </ul>
         </div>
 
-        <div class="col-md-10 bg-light">
+        <div class="col-md-10 bg-light vh-100">
             <div class="tab-content" id="v-pills-tabContent">
                 <div class="tab-pane fade show active" id="v-pills-admin" role="tabpanel" aria-labelledby="v-pills-admin-tab">
                     <div sec:authorize="hasAuthority('ADMIN')">
-                        <h1 class="h1">Admin panel</h1>
+                        <h1 class="h1 ">Admin panel</h1>
                         <nav>
                             <div class="nav nav-tabs" id="nav-admin-tab" role="tablist">
                                 <button class="nav-link active" id="nav-users-tab" data-bs-toggle="tab"
@@ -206,8 +206,6 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-
-
                                                         </td>
                                                     </tr>
                                                     </tbody>
@@ -221,8 +219,38 @@
                                 <div class="card">
                                     <h5 class="card-header">Add new user</h5>
                                 </div>
-                                <div class="card-body">
-                                    <form th:method="POST" th:action="@{/admin/create}" th:object="${userN}">
+                                <div class="card-body bg-white text-center border">
+                                    <form th:method="POST" th:action="@{/admin/create}" th:object="${emptyUser}">
+                                        <div class="container w-25 needs-validation">
+                                            <div class="mb-3">
+                                                <label th:for="name" class="form-label"><b>First name</b></label>
+                                                <input type="text" th:value="*{name}" class="form-control" name="name" placeholder="name" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label th:for="surname" class="form-label"><b>Last name</b></label>
+                                                <input type="text" th:value="*{surname}" class="form-control" name="surname" placeholder="surname" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label th:for="age" class="form-label"><b>Age</b></label>
+                                                <input type="number" step="1" min="0" th:value="*{age}" class="form-control" name="age" placeholder="age" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label th:for="email" class="form-label"><b>Email</b></label>
+                                                <input type="text" th:value="*{email}" class="form-control" name="email" placeholder="email" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label th:for="password" class="form-label"><b>Password</b></label>
+                                                <input type="text" th:value="*{password}" class="form-control" name="password" placeholder="password" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label th:for="roles"><b>Role</b></label>
+                                                <select multiple class="form-control" th:value="*{roles}" name="roles" size="2" required>
+                                                    <option th:each="r : ${userRoles}" th:value="${r.id}" th:text="${r.role}">
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <button type="submit" class="btn btn-success">Add new user</button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -234,13 +262,8 @@
     </div>
 </div>
 
-
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-
-
 
 </body>
 </html>

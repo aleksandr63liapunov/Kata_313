@@ -31,8 +31,9 @@ public class UserController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("admen", user);
         model.addAttribute("mans", userService.getAllUsers());
-
         model.addAttribute("userRoles", userService.getRoles());
+        User emptyUser = new User();
+        model.addAttribute("emptyUser", emptyUser);
         return "admin";
     }
 
@@ -54,23 +55,11 @@ public class UserController {
         userService.deleteUser(id);
         return "redirect:/admin";
     }
-    //------------------------------------------------------------------------------------------------------------------
-
-    @GetMapping("/new")
-    public String newUserPage(@ModelAttribute("userBoy") User user, Model model) {
-        model.addAttribute("setRoles", userService.getRoles());
-        return "new";
-    }
 
     @PostMapping("/admin/create")
-    public String createUser(@ModelAttribute("userN") User user) {
+    public String createUser(@ModelAttribute("emptyUser") User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.addUser(user);
         return "redirect:/admin";
     }
-
-
-
-
-
 }
