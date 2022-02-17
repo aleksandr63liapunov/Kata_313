@@ -48,7 +48,7 @@
                 <li class="nav-item">
                     <a class="nav-link active" id="v-pills-user-tab" data-toggle="pill" href="#v-pills-user" role="tab"
                        aria-controls="v-pills-user" aria-selected="false">
-                        <div sec:authorize="hasAuthority('USER')">
+                        <div sec:authorize="hasAnyAuthority('USER', 'ADMIN')">
                             User
                         </div>
                     </a>
@@ -59,7 +59,7 @@
         <div class="col-md-10 bg-light vh-100">
             <div class="tab-content" id="v-pills-tabContent">
                 <div class="tab-pane fade show active" id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab">
-                    <div sec:authorize="hasAuthority('USER')">
+                    <div sec:authorize="hasAnyAuthority('USER', 'ADMIN')">
                         <h1 class="h1">User information-page</h1>
                         <div class="card">
                             <h5 class="card-header">About user</h5>

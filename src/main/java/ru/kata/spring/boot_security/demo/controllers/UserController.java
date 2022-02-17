@@ -46,6 +46,7 @@ public class UserController {
 
     @PatchMapping("/edit/{id}")
     public String updateUser(@ModelAttribute("user") User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.updateUser(user);
         return "redirect:/admin";
     }

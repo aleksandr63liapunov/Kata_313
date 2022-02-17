@@ -44,7 +44,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/user">
-                        <div sec:authorize="hasAuthority('USER')">
+                        <div sec:authorize="hasAnyAuthority('USER', 'ADMIN')">
                             User
                         </div>
                     </a>
